@@ -31,22 +31,23 @@ public class deviceController {
 	}
 
 	@PostMapping("save/")
-	public String postDeviceData(@RequestBody String entity) {
-		// TODO: process POST request
+	public device postDeviceData(@RequestBody device entity) {
 
-		return entity;
+		
+		 
+		 return  deviceServices.postDeviceData(entity);
 	}
-
-	@PutMapping("updateBy/{id}")
-	public String updateDeviceData(@PathVariable String id, @RequestBody String entity) {
-		// TODO: process PUT request
-
-		return entity;
-	}
-
-	@GetMapping("getAllDevice")
-	public String getAllDevice(@RequestParam String param) {
-		return new String();
-	}
+//
+//	@PutMapping("updateBy/{id}")
+//	public String updateDeviceData(@PathVariable String id, @RequestBody String entity) {
+//		// TODO: process PUT request
+//
+//		return entity;
+//	}
+//
+//	@GetMapping("getAllDevice")
+//	public String getAllDevice(@RequestParam String param) {
+//		return new String();
+//	}
 
 }
