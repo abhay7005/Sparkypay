@@ -19,16 +19,17 @@ import lombok.Setter;
 public class device {
 	@Id
 	@UniqueElements
-	String deviceId;
+	String _Id;
 	String deviceType;
 	String osVersion;
 	String appVersion;
 	String deviceLocation;
-	public String getDeviceId() {
-		return deviceId;
+
+	public String get_Id() {
+		return _Id;
 	}
-	public void setDeviceId(String deviceId) {
-		this.deviceId = deviceId;
+	public void set_Id(String _Id) {
+		this._Id = _Id;
 	}
 	public String getDeviceType() {
 		return deviceType;
