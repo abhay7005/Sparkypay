@@ -16,7 +16,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "DeviceInfo")
-public class device {
+public class Device {
 	@Id
 	@UniqueElements
 	String _Id;
