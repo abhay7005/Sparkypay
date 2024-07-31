@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.sparkypay.userservices.dto.UserDTO;
 import com.sparkypay.userservices.entity.User;
+import com.sparkypay.userservices.passwordutils.PasswordUtils;
 import com.sparkypay.userservices.repo.UserRepo;
 
 @Service
@@ -25,6 +26,9 @@ public class UserService {
 	}
 
 	public UserDTO save(User user) {
+		String password = user.getPassword();
+		String hashPassword = PasswordUtils.hashPassword(password);
+		user.setPassword(hashPassword);
 		User user2 = repo.save(user);
 		UserDTO userDTO = mapper.map(user2, UserDTO.class);
 		return userDTO;
