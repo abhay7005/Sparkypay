@@ -4,17 +4,21 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sparkypay.accountservices.dto.AccountDto;
 import com.sparkypay.accountservices.model.Account;
+
 @Transactional
 public interface AccountService {
 
-	Account getAccountByid(String userId);
+	AccountDto getAccountByid(String id);
 
-	Account createAccount(Account account);
+	AccountDto createAccount(Account account);
 
-	List<Account> getAllAccount();
+	List<AccountDto> getAllAccount();
 
-	Account updateAccount(String userId, Account updatedAccount);
-	
-	void deleteAccount(String userId);
+	AccountDto updateAccount(String id, Account updatedAccount);
+
+	void deleteAccount(String id);
+
+	AccountDto getAccountByAccountNo(String accountNumber);
 }

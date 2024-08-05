@@ -1,45 +1,62 @@
 package com.sparkypay.accountservices.serviceImpl;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sparkypay.accountservices.exception.AccountNotFoundException;
+import com.sparkypay.accountservices.dto.AccountDto;
+import com.sparkypay.accountservices.exception.ResourceNotFoundException;
 import com.sparkypay.accountservices.model.Account;
 import com.sparkypay.accountservices.repository.AccountRepository;
 import com.sparkypay.accountservices.service.AccountService;
 
 @Service
-public class AccountServiceImpl implements AccountService{
+public class AccountServiceImpl implements AccountService {
 	@Autowired
 	AccountRepository accountRepository;
-	
+
 	@Autowired
 	AccountNumberGeneratorServiceImpl accountNumberGeneratorServiceImpl;
-	
-	public Account getAccountByid(String userId) {
-		return accountRepository.findById(userId)
-                .orElseThrow(() -> new AccountNotFoundException(userId));
-		
+
+	@Autowired
+	ModelMapper modelMapper;
+
+	public AccountDto getAccountByid(String id) {
+		Account account = accountRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Account not found with ID: " + id));
+		return modelMapper.map(account, AccountDto.class);
+
 	}
 
-	public Account createAccount(Account account) {
+	public AccountDto createAccount(Account account) {
 		account.setAccountNumber(accountNumberGeneratorServiceImpl.generateAccountNumber());
 		account.setCreatedAt(LocalDateTime.now());
-        account.setUpdatedAt(LocalDateTime.now());
-        account.setStatus(true);; 
-		return accountRepository.save(account);
+		account.setUpdatedAt(LocalDateTime.now());
+		account.setStatus(true);
+		;
+		Account account2 = accountRepository.save(account);
+		return modelMapper.map(account, AccountDto.class);
+
 	}
 
-	public List<Account> getAllAccount() {
-		
-		return accountRepository.findAll();
+	public List<AccountDto> getAllAccount() {
+
+		List<Account> accounts = accountRepository.findAll();
+		List<AccountDto> list = new ArrayList();
+		for (Account account : accounts) {
+			AccountDto dto = modelMapper.map(account, AccountDto.class);
+			list.add(dto);
+		}
+
+		return list;
 	}
 
-	public Account updateAccount(String userId, Account updatedAccount) {
-		 Account existingAccount = getAccountByid(userId);
+	public AccountDto updateAccount(String userId, Account updatedAccount) {
+		Account existingAccount = accountRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("Account not found with ID: " + userId));
 
 		 
 		 existingAccount.setAccountName(updatedAccount.getAccountName());
@@ -50,12 +67,21 @@ public class AccountServiceImpl implements AccountService{
 	        existingAccount.setIban(updatedAccount.getIban());
 	        existingAccount.setUpdatedAt(LocalDateTime.now());
 
-	        return accountRepository.save(existingAccount);
+	        Account account = accountRepository.save(existingAccount);
+	        return modelMapper.map(account, AccountDto.class);
+			
+	        
 	}
 
 	public void deleteAccount(String userId) {
-        Account existingAccount = accountRepository.findById(userId)
-                .orElseThrow(() -> new AccountNotFoundException(userId));
-        accountRepository.delete(existingAccount);
-    }
+		Account existingAccount = accountRepository.findById(userId)
+				.orElseThrow(() -> new ResourceNotFoundException("Account not found with ID: " + userId));
+		accountRepository.delete(existingAccount);
+	}
+
+	public AccountDto getAccountByAccountNo(String accountNumber) {
+		Account account = accountRepository.findByAccountNumber(accountNumber).orElseThrow(
+				() -> new ResourceNotFoundException("Account not found with account number: " + accountNumber));
+		return modelMapper.map(account, AccountDto.class);
+	}
 }

@@ -1,30 +1,8 @@
-package com.sparkypay.accountservices.model;
+package com.sparkypay.accountservices.dto;
 
 import java.time.LocalDateTime;
 
-import org.hibernate.validator.constraints.UniqueElements;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@Data
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Document(collection = "AccountInfo")
-public class Account {
-	@Id
-	@UniqueElements
+public class AccountDto {
 	String id; // Identifier for the user who owns the account
 	String accountName; // Name given to the account by the user
 	String accountType; // Type of the account (e.g., Wallet, Savings,salary)
@@ -33,14 +11,27 @@ public class Account {
 	Double balance; // Current balance of the account
 	String accountNumber; // Unique identifier for the account within the application
 	String iban;
-	
-	@CreatedDate
-	@JsonIgnore
-	LocalDateTime createdAt; // Timestamp of when the account was created
-	
-	@LastModifiedDate
-	@JsonIgnore
-	LocalDateTime updatedAt; // Timestamp of the last update to the account
+	LocalDateTime createdAt;
+	LocalDateTime updatedAt;
+
+	public AccountDto() {
+
+	}
+
+	public AccountDto(String id, String accountName, String accountType, Boolean status, String currency,
+			Double balance, String accountNumber, String iban, LocalDateTime createdAt, LocalDateTime updatedAt) {
+		super();
+		this.id = id;
+		this.accountName = accountName;
+		this.accountType = accountType;
+		this.status = status;
+		this.currency = currency;
+		this.balance = balance;
+		this.accountNumber = accountNumber;
+		this.iban = iban;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+	}
 
 	
 
@@ -67,8 +58,6 @@ public class Account {
 	public void setAccountType(String accountType) {
 		this.accountType = accountType;
 	}
-
-	
 
 	public Boolean getStatus() {
 		return status;
@@ -125,6 +114,14 @@ public class Account {
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+
+	@Override
+	public String toString() {
+		return "AccountDto [id=" + id + ", accountName=" + accountName + ", accountType=" + accountType + ", status="
+				+ status + ", currency=" + currency + ", balance=" + balance + ", accountNumber=" + accountNumber
+				+ ", iban=" + iban + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+	}
+
 	
 
 }

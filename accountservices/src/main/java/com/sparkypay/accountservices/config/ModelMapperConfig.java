@@ -1,17 +1,16 @@
-package com.sparkypay.userservices.config;
+package com.sparkypay.accountservices.config;
+
+
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 @Configuration
-public class MyConfig {
+public class ModelMapperConfig {
+	
 	@Bean
-	public ModelMapper getMapper() {
+	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
-
-	public MyConfig() {
-		
-	}
-
+	
 }

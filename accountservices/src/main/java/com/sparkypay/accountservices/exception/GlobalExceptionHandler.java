@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-	@ExceptionHandler(AccountNotFoundException.class)
-    public ResponseEntity<String> handleAccountNotFoundException(AccountNotFoundException ex) {
+
+	@ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<String> handleResourceNotFoundException(ResourceNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 	
@@ -17,8 +18,4 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 	
-	@ExceptionHandler(NoAccountsFoundException.class)
-	public ResponseEntity<String> handleNoAccountsFoundException(NoAccountsFoundException ex){
-		return new ResponseEntity<>(ex.getMessage(),HttpStatus.NOT_FOUND);
-	}
 }
