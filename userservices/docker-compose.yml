@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: abhaysinghthakur12
+      MONGO_INITDB_ROOT_PASSWORD: abhay@sparkypay
+
+  springboot:
+    image: your_springboot_image  # Replace with your Spring Boot image
+    container_name: springboot
+    build:
+      context: .
+      dockerfile: Dockerfile  # Path to your Dockerfile
+    ports:
+      - "9095:9095"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb+srv://abhaysinghthakur12:abhay@sparkypay.vhp8ytz.mongodb.net/ServiceInfo
+
+volumes:
+  mongo-data:
